@@ -379,24 +379,28 @@ export default function LeerhuisXL() {
         html, body { margin: 0; padding: 0; }
         select { -webkit-appearance: none; appearance: none; }
         @media (max-width: 700px) {
-          .hero-banner { height: 180px !important; }
-          .filter-bar-inner { flex-direction: column !important; }
-          .filter-bar-inner > div, .filter-bar-inner select { width: 100% !important; min-width: unset !important; }
+          .hero-banner { height: 220px !important; }
+          .rijkswapen-balk { height: 64px !important; }
+          .rijkswapen-balk img { height: 60px !important; }
+          .filter-bar-inner { flex-direction: column !important; gap: 6px !important; }
+          .filter-bar-inner > div { width: 100% !important; min-width: unset !important; max-width: unset !important; }
+          .filter-bar-inner select { width: 100% !important; min-width: unset !important; }
+          .filter-bar-inner input { width: 100% !important; max-width: unset !important; }
           .stats-bar { flex-direction: column !important; align-items: flex-start !important; }
-          .main-pad { padding: 14px 12px 80px !important; }
+          .main-pad { padding: 10px 10px 80px !important; }
           .card-grid { grid-template-columns: 1fr !important; }
-          .nav-label-full { font-size: 13px !important; }
-          .titelbalk-inner { padding: 0 16px !important; }
-          .titelbalk-title { font-size: 20px !important; }
+          .titelbalk-inner { padding: 0 12px !important; }
+          .titelbalk-title { font-size: 22px !important; }
+          .nieuwsbrief-knop { font-size: 12px !important; padding: 8px 14px !important; bottom: 12px !important; left: 12px !important; }
         }
         @media (max-width: 900px) {
           .card-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; }
-          .hero-banner { height: 240px !important; }
+          .hero-banner { height: 260px !important; }
         }
       `}</style>
 
-      {/* ── Rijkswapen balk — exact zoals leerhuisinformatiehuishouding.nl ── */}
-      <div style={{ background: "white", display: "flex", justifyContent: "center", alignItems: "flex-start", paddingTop: 0, paddingBottom: 25, margin: 0 }}>
+      {/* ── Rijkswapen balk ── */}
+      <div className="rijkswapen-balk" style={{ background: "white", display: "flex", justifyContent: "center", alignItems: "flex-start", height: 125, paddingTop: 0, paddingBottom: 25, margin: 0 }}>
         <img
           src="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg"
           alt="Rijksoverheid"
@@ -455,6 +459,7 @@ export default function LeerhuisXL() {
             />
             {/* Nieuwsbrief knop */}
             <a
+              className="nieuwsbrief-knop"
               href="https://leerhuis-informatiehuishouding.email-provider.eu/memberforms/subscribe/standalone/form/?a=7aotlshhrm&l=f6ncftu5fm"
               target="_blank" rel="noopener noreferrer"
               style={{
@@ -473,11 +478,11 @@ export default function LeerhuisXL() {
           </div>
 
           {/* ── Zoek + filters balk ── */}
-          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 32px" }}>
+          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 16px" }}>
             <div style={{ maxWidth: 1200, margin: "0 auto" }}>
               <div className="filter-bar-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
                 {/* Zoekbalk */}
-                <div style={{ position: "relative", flex: "1 1 220px", minWidth: 180, maxWidth: 320 }}>
+                <div style={{ position: "relative", flex: "1 1 220px", minWidth: 180 }}>
                   <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#888", fontSize: 13 }}>🔍</span>
                   <input
                     type="text" placeholder="Zoek op titel of omschrijving..."
