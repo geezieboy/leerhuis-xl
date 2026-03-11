@@ -1,10 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>leerhuisxl</title>
+    <link rel="icon" type="image/svg+xml" href="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg" />
+    <title>Welkom op Leerhuis XL</title>
+    <script>
+      // Dynamische paginatitel op basis van route
+      (function() {
+        const path = window.location.pathname;
+        if (path.startsWith('/admin')) {
+          document.title = 'Leerhuis XL — Beheerportaal';
+        } else {
+          document.title = 'Welkom op Leerhuis XL';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
