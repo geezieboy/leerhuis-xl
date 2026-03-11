@@ -690,9 +690,9 @@ export default function LeerhuisXL() {
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
           <div>
             <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 2 }}>Leerhuis XL</div>
-            <div style={{ fontSize: 11, opacity: 0.72 }}>Leeractiviteiten Rijksoverheid — één overzicht, alle aanbieders</div>
+            <div style={{ fontSize: 11, opacity: 0.72 }}>Één overzicht, alle aanbieders</div>
           </div>
-          <div style={{ fontSize: 11, opacity: 0.6 }}>© 2026 Leerhuis XL · Onderdeel van de Rijksoverheid</div>
+          <div style={{ fontSize: 11, opacity: 0.6 }}>© 2026 Leerhuis XL — wordt u aangeboden door het Leerhuis Informatiehuishouding</div>
         </div>
       </footer>
 
