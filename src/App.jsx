@@ -171,7 +171,7 @@ Gebruik **vetgedrukt** voor titels van aanbevolen activiteiten.`;
 
       {/* Popup bubble */}
       {showBubble && !open && (
-        <div style={{
+        <div className="lex-bubble" style={{
           position: "fixed", bottom: 96, right: 20, zIndex: 999,
           background: "white", borderRadius: 14, padding: "14px 16px",
           boxShadow: "0 6px 28px rgba(0,0,0,0.16)", maxWidth: 272,
@@ -392,7 +392,8 @@ export default function LeerhuisXL() {
           .titelbalk-inner { padding: 0 12px !important; }
           .titelbalk-title { font-size: 22px !important; }
           .nieuwsbrief-knop { font-size: 12px !important; padding: 8px 14px !important; bottom: 12px !important; left: 12px !important; }
-          .lex-fab { bottom: 24px !important; right: 16px !important; }
+          .lex-fab { bottom: 80px !important; right: 16px !important; }
+          .lex-bubble { bottom: 156px !important; right: 16px !important; }
           .lex-chat { bottom: 16px !important; right: 8px !important; left: 8px !important; width: calc(100vw - 16px) !important; }
         }
         @media (max-width: 900px) {
