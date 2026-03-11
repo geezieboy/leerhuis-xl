@@ -319,8 +319,10 @@ export default function LeerhuisXL() {
   const [formSent, setFormSent] = useState(false);
   const [activeTab, setActiveTab] = useState("courses");
   const [visibleCount, setVisibleCount] = useState(6);
+  const [topModuleEnabled, setTopModuleEnabled] = useState(false);
+  const [topModulePosition, setTopModulePosition] = useState("boven");
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { fetchData(); fetchTopModuleSettings(); }, []);
 
   async function fetchData() {
     setLoading(true);
@@ -329,6 +331,20 @@ export default function LeerhuisXL() {
       .or(`expiry_date.is.null,expiry_date.gte.${today}`).order("title");
     setCourses(data || []);
     setLoading(false);
+  }
+
+  async function fetchTopModuleSettings() {
+    const { data } = await supabase.from("site_settings").select("*").in("key", ["top_module_enabled", "top_module_position"]);
+    if (data) {
+      const enabled = data.find(d => d.key === "top_module_enabled");
+      const position = data.find(d => d.key === "top_module_position");
+      if (enabled) setTopModuleEnabled(enabled.value === "true");
+      if (position) setTopModulePosition(position.value);
+    }
+  }
+
+  async function trackClick(courseId) {
+    await supabase.rpc("increment_click_count", { course_id: courseId });
   }
 
   const activeWerkvormen = ["Alle leervormen", ...ALL_WERKVORMEN.filter(w => courses.some(c => c.werkvorm?.toLowerCase().includes(w.toLowerCase())))];
@@ -556,8 +572,9 @@ export default function LeerhuisXL() {
               </div>
             ) : (
               <>
+                {topModuleEnabled && topModulePosition === "boven" && <TopModule courses={courses} />}
                 <div className="card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 2 }}>
-                  {filtered.slice(0, visibleCount).map(course => <CourseCard key={course.id} course={course} />)}
+                  {filtered.slice(0, visibleCount).map(course => <CourseCard key={course.id} course={course} onClickTrack={trackClick} />)}
                 </div>
                 {visibleCount < filtered.length && (
                   <div style={{ display: "flex", justifyContent: "center", gap: 12, padding: "28px 0 8px" }}>
@@ -583,6 +600,7 @@ export default function LeerhuisXL() {
             )}
           </>
         )}
+        {topModuleEnabled && topModulePosition === "onder" && activeTab === "courses" && !loading && <TopModule courses={courses} />}
 
         {activeTab === "about" && (
           <div style={{ maxWidth: 860 }}>
@@ -733,7 +751,70 @@ export default function LeerhuisXL() {
   );
 }
 
-function CourseCard({ course }) {
+function TopModule({ courses }) {
+  const PAARS = "#42145f";
+  const PAARS_LICHT = "#f5eefa";
+  const topBekeken = [...courses]
+    .filter(c => c.werkvorm !== "Podcast" && (c.click_count || 0) > 0)
+    .sort((a, b) => (b.click_count || 0) - (a.click_count || 0))
+    .slice(0, 5);
+  const topBeluisterd = [...courses]
+    .filter(c => c.werkvorm === "Podcast" && (c.click_count || 0) > 0)
+    .sort((a, b) => (b.click_count || 0) - (a.click_count || 0))
+    .slice(0, 5);
+
+  if (topBekeken.length === 0 && topBeluisterd.length === 0) return null;
+
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 2 }}>
+        {topBekeken.length > 0 && (
+          <div style={{ background: "white", border: "1px solid #d4d4d4", borderTop: `4px solid ${PAARS}` }}>
+            <div style={{ padding: "14px 18px 10px", borderBottom: "1px solid #f0f0f0", display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 18 }}>🏆</span>
+              <span style={{ fontWeight: 700, fontSize: 14, color: PAARS }}>Meest bekeken</span>
+            </div>
+            <ol style={{ margin: 0, padding: "8px 18px 12px 36px" }}>
+              {topBekeken.map((c, i) => (
+                <li key={c.id} style={{ padding: "7px 0", borderBottom: i < topBekeken.length - 1 ? "1px solid #f5f5f5" : "none" }}>
+                  <a href={c.enroll_url} target="_blank" rel="noopener noreferrer"
+                    style={{ color: "#222", textDecoration: "none", fontSize: 13, fontWeight: 600, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                    <span style={{ flex: 1 }}>{c.title}</span>
+                    <span style={{ fontSize: 11, color: "#888", background: "#f3f3f3", padding: "2px 7px", whiteSpace: "nowrap" }}>{c.click_count}×</span>
+                  </a>
+                  <div style={{ fontSize: 11, color: "#aaa", marginTop: 2 }}>{c.vendor}</div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+        {topBeluisterd.length > 0 && (
+          <div style={{ background: "white", border: "1px solid #d4d4d4", borderTop: "4px solid #1DB954" }}>
+            <div style={{ padding: "14px 18px 10px", borderBottom: "1px solid #f0f0f0", display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 18 }}>🎧</span>
+              <span style={{ fontWeight: 700, fontSize: 14, color: "#1DB954" }}>Meest beluisterd</span>
+            </div>
+            <ol style={{ margin: 0, padding: "8px 18px 12px 36px" }}>
+              {topBeluisterd.map((c, i) => (
+                <li key={c.id} style={{ padding: "7px 0", borderBottom: i < topBeluisterd.length - 1 ? "1px solid #f5f5f5" : "none" }}>
+                  <a href={c.enroll_url} target="_blank" rel="noopener noreferrer"
+                    style={{ color: "#222", textDecoration: "none", fontSize: 13, fontWeight: 600, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                    <span style={{ flex: 1 }}>{c.title}</span>
+                    <span style={{ fontSize: 11, color: "#888", background: "#f0faf4", padding: "2px 7px", whiteSpace: "nowrap" }}>{c.click_count}×</span>
+                  </a>
+                  <div style={{ fontSize: 11, color: "#aaa", marginTop: 2 }}>{c.vendor}</div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+function CourseCard({ course, onClickTrack }) {
   const vendorColor = VENDOR_COLORS[course.vendor] || PAARS;
   const [hovered, setHovered] = useState(false);
   const [playerOpen, setPlayerOpen] = useState(false);
@@ -778,7 +859,7 @@ function CourseCard({ course }) {
               />
             )}
             <div style={{ display: "flex", gap: 6 }}>
-              <button onClick={() => setPlayerOpen(p => !p)}
+              <button onClick={() => { setPlayerOpen(p => !p); if (!playerOpen && onClickTrack) onClickTrack(course.id); }}
                 style={{ flex: 1, background: vendorColor, color: "white", border: "none", padding: "9px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 5 }}>
                 {playerOpen ? "⏹ Sluit player" : "▶ Nu luisteren"}
               </button>
@@ -791,6 +872,7 @@ function CourseCard({ course }) {
           </div>
         ) : course.enroll_url ? (
           <a href={course.enroll_url} target="_blank" rel="noopener noreferrer"
+            onClick={() => onClickTrack && onClickTrack(course.id)}
             style={{ display: "block", textAlign: "center", background: vendorColor, color: "white", padding: "9px 14px", textDecoration: "none", fontSize: 13, fontWeight: 700 }}
             onMouseEnter={e => { e.currentTarget.style.background = "white"; e.currentTarget.style.color = vendorColor; e.currentTarget.style.outline = `2px solid ${vendorColor}`; }}
             onMouseLeave={e => { e.currentTarget.style.background = vendorColor; e.currentTarget.style.color = "white"; e.currentTarget.style.outline = "none"; }}>

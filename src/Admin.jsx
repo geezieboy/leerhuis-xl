@@ -97,9 +97,15 @@ export default function AdminUpload() {
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState("");
   const [courseCount, setCourseCount] = useState({});
+  const [topModuleEnabled, setTopModuleEnabled] = useState(false);
+  const [topModulePosition, setTopModulePosition] = useState("boven");
+  const [settingsSaved, setSettingsSaved] = useState(false);
+  const [addForm, setAddForm] = useState({});
+  const [adding, setAdding] = useState(false);
+  const [addMsg, setAddMsg] = useState("");
 
   function handleLogin() {
-    if (password === CORRECT_PASSWORD) { setLoggedIn(true); loadAllCounts(); }
+    if (password === CORRECT_PASSWORD) { setLoggedIn(true); loadAllCounts(); loadTopModuleSettings(); }
     else { setWrongPassword(true); setTimeout(() => setWrongPassword(false), 2000); }
   }
 
@@ -109,6 +115,25 @@ export default function AdminUpload() {
     const counts = {};
     data.forEach(r => { counts[r.vendor] = (counts[r.vendor] || 0) + 1; });
     setCourseCount(counts);
+  }
+
+  async function loadTopModuleSettings() {
+    const { data } = await supabase.from("site_settings").select("*").in("key", ["top_module_enabled", "top_module_position"]);
+    if (data) {
+      const enabled = data.find(d => d.key === "top_module_enabled");
+      const position = data.find(d => d.key === "top_module_position");
+      if (enabled) setTopModuleEnabled(enabled.value === "true");
+      if (position) setTopModulePosition(position.value);
+    }
+  }
+
+  async function saveTopModuleSettings() {
+    await supabase.from("site_settings").upsert([
+      { key: "top_module_enabled", value: String(topModuleEnabled) },
+      { key: "top_module_position", value: topModulePosition },
+    ]);
+    setSettingsSaved(true);
+    setTimeout(() => setSettingsSaved(false), 2000);
   }
 
   async function loadCoursesForVendor(vendorName) {
@@ -122,6 +147,7 @@ export default function AdminUpload() {
     setResult(null); setErrors([]); setFile(null); setPreview([]); setPlatform(null);
     setEditingCourse(null); setSaveMsg("");
     if (view === "edit") loadCoursesForVendor(vendor.name);
+    if (view === "add") setAddForm({ vendor: vendor.name, title: "", description: "", topic: "", werkvorm: "", doelgroep: "", duration: "", is_free: true, enroll_url: "", language: "NL" });
   }
 
   function processFile(f, vendorName) {
@@ -177,6 +203,22 @@ export default function AdminUpload() {
       setSaveMsg("✅ Opgeslagen!");
       setCourses(cs => cs.map(c => c.id === editForm.id ? { ...editForm } : c));
       setTimeout(() => { setEditingCourse(null); setSaveMsg(""); }, 1200);
+    }
+  }
+
+  async function saveNewCourse() {
+    if (!addForm.title?.trim()) { setAddMsg("❌ Titel is verplicht"); return; }
+    if (!addForm.topic) { setAddMsg("❌ Thema is verplicht"); return; }
+    if (!addForm.werkvorm) { setAddMsg("❌ Leervorm is verplicht"); return; }
+    if (!addForm.doelgroep) { setAddMsg("❌ Doelgroep is verplicht"); return; }
+    setAdding(true); setAddMsg("");
+    const { data, error } = await supabase.from("courses").insert([addForm]).select();
+    setAdding(false);
+    if (error) { setAddMsg("❌ " + error.message); }
+    else {
+      setAddMsg("✅ Activiteit toegevoegd!");
+      loadAllCounts();
+      setTimeout(() => { setSelectedVendor(null); setVendorView(null); setAddMsg(""); }, 1500);
     }
   }
 
@@ -253,6 +295,40 @@ export default function AdminUpload() {
               <h2 style={{ margin: 0, color: PAARS, fontSize: 22 }}>Aanbieders</h2>
               <span style={{ fontSize: 14, color: "#666" }}>{Object.values(courseCount).reduce((a, b) => a + b, 0)} activiteiten totaal</span>
             </div>
+
+            {/* Top module instellingen */}
+            <div style={{ background: "white", border: "1px solid #d4d4d4", borderTop: `4px solid ${PAARS}`, padding: "20px 24px", marginBottom: 16 }}>
+              <div style={{ fontWeight: 700, fontSize: 15, color: PAARS, marginBottom: 14 }}>🏆 Meest bekeken / Meest beluisterd module</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#333" }}>Module tonen:</span>
+                  <button onClick={() => setTopModuleEnabled(true)}
+                    style={{ ...btnPrimary(), background: topModuleEnabled ? PAARS : "white", color: topModuleEnabled ? "white" : PAARS, border: `1px solid ${PAARS}`, padding: "6px 16px" }}>
+                    Aan
+                  </button>
+                  <button onClick={() => setTopModuleEnabled(false)}
+                    style={{ ...btnGray(), background: !topModuleEnabled ? "#e0e0e0" : "white", fontWeight: !topModuleEnabled ? 700 : 400, padding: "6px 16px" }}>
+                    Uit
+                  </button>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#333" }}>Positie:</span>
+                  <button onClick={() => setTopModulePosition("boven")}
+                    style={{ ...btnOutline(), background: topModulePosition === "boven" ? PAARS : "white", color: topModulePosition === "boven" ? "white" : PAARS, padding: "6px 16px" }}>
+                    ↑ Boven activiteiten
+                  </button>
+                  <button onClick={() => setTopModulePosition("onder")}
+                    style={{ ...btnOutline(), background: topModulePosition === "onder" ? PAARS : "white", color: topModulePosition === "onder" ? "white" : PAARS, padding: "6px 16px" }}>
+                    ↓ Onder activiteiten
+                  </button>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <button onClick={saveTopModuleSettings} style={btnPrimary({ padding: "7px 20px" })}>
+                    {settingsSaved ? "✅ Opgeslagen!" : "Opslaan"}
+                  </button>
+                </div>
+              </div>
+            </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {vendors.map(vendor => {
                 const badge = statusBadge(vendor.status);
@@ -271,6 +347,7 @@ export default function AdminUpload() {
                     </div>
                     <div style={{ display: "flex", gap: 8 }}>
                       <button onClick={() => openVendor(vendor, "import")} style={btnPrimary()}>⬆ Importeren</button>
+                      <button onClick={() => openVendor(vendor, "add")} style={btnOutline()}>+ Handmatig</button>
                       <button onClick={() => openVendor(vendor, "edit")} style={btnOutline()}>✏️ Bewerken</button>
                     </div>
                   </div>
@@ -512,6 +589,75 @@ export default function AdminUpload() {
                 ))}
               </div>
             )}
+          </>
+        )}
+
+        {/* HANDMATIG TOEVOEGEN */}
+        {selectedVendor && vendorView === "add" && (
+          <>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+              <div style={{ width: 8, height: 32, background: selectedVendor.color }} />
+              <h2 style={{ margin: 0, color: PAARS, fontSize: 20 }}>{selectedVendor.name} — Handmatig toevoegen</h2>
+            </div>
+            <div style={{ background: "white", border: `2px solid ${PAARS}`, padding: 28 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={labelStyle}>Titel <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <input value={addForm.title || ""} onChange={e => setAddForm({ ...addForm, title: e.target.value })} style={inputStyle} placeholder="Naam van de leeractiviteit" />
+                </div>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={labelStyle}>Omschrijving</label>
+                  <textarea value={addForm.description || ""} onChange={e => setAddForm({ ...addForm, description: e.target.value })} rows={3} style={{ ...inputStyle, resize: "vertical" }} placeholder="Korte omschrijving..." />
+                </div>
+                <div>
+                  <label style={labelStyle}>Thema <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <select value={addForm.topic || ""} onChange={e => setAddForm({ ...addForm, topic: e.target.value })} style={inputStyle}>
+                    <option value="">— Kies thema —</option>
+                    {ALL_THEMAS.map(t => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Leervorm <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <select value={addForm.werkvorm || ""} onChange={e => setAddForm({ ...addForm, werkvorm: e.target.value })} style={inputStyle}>
+                    <option value="">— Kies leervorm —</option>
+                    {ALL_WERKVORMEN.map(w => <option key={w} value={w}>{w}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Doelgroep <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <select value={addForm.doelgroep || ""} onChange={e => setAddForm({ ...addForm, doelgroep: e.target.value })} style={inputStyle}>
+                    <option value="">— Kies doelgroep —</option>
+                    {ALL_DOELGROEPEN.map(d => <option key={d} value={d}>{d}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Duur</label>
+                  <input value={addForm.duration || ""} onChange={e => setAddForm({ ...addForm, duration: e.target.value })} style={inputStyle} placeholder="bijv. 2 uur" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Kosten</label>
+                  <select value={String(addForm.is_free)} onChange={e => setAddForm({ ...addForm, is_free: e.target.value === "true" })} style={inputStyle}>
+                    <option value="true">Gratis</option>
+                    <option value="false">Betaald</option>
+                  </select>
+                </div>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={labelStyle}>Inschrijflink (URL)</label>
+                  <input value={addForm.enroll_url || ""} onChange={e => setAddForm({ ...addForm, enroll_url: e.target.value })} style={inputStyle} placeholder="https://..." />
+                </div>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={labelStyle}>Vervaldatum (optioneel)</label>
+                  <input type="date" value={addForm.expiry_date || ""} onChange={e => setAddForm({ ...addForm, expiry_date: e.target.value || null })} style={inputStyle} />
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 10, marginTop: 24, alignItems: "center" }}>
+                <button onClick={saveNewCourse} disabled={adding} style={{ ...btnPrimary(), padding: "11px 28px", fontSize: 14, opacity: adding ? 0.6 : 1 }}>
+                  {adding ? "Opslaan..." : "✅ Toevoegen aan database"}
+                </button>
+                <button onClick={() => { setSelectedVendor(null); setVendorView(null); }} style={btnGray()}>Annuleren</button>
+                {addMsg && <span style={{ fontSize: 14, color: addMsg.includes("❌") ? "#d52b1e" : "#275937" }}>{addMsg}</span>}
+              </div>
+            </div>
           </>
         )}
       </div>
