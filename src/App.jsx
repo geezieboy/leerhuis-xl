@@ -445,11 +445,11 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
-          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0 }}>
+          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden" }}>
             <img
               src="/hero.jpg"
               alt="Rijksoverheid medewerkers leren samen"
-              style={{ width: "100%", height: "140%", objectFit: "cover", objectPosition: "center 40%", display: "block", marginTop: "-20%" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%", display: "block" }}
             />
             {/* Nieuwsbrief knop */}
             <a
