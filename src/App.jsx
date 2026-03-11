@@ -829,6 +829,21 @@ function CourseCard({ course, onClickTrack }) {
   const [hovered, setHovered] = useState(false);
   const [playerOpen, setPlayerOpen] = useState(false);
 
+  const BEKIJK_LABEL = {
+    "E-learning":     "Bekijk e-learning",
+    "Training":       "Bekijk training",
+    "Webinar":        "Bekijk webinar",
+    "Workshop":       "Bekijk workshop",
+    "Podcast":        "Bekijk podcast",
+    "Netwerkborrel":  "Bekijk netwerkborrel",
+    "Bijeenkomst":    "Bekijk bijeenkomst",
+    "Congres":        "Bekijk congres",
+    "Spreekuur":      "Bekijk spreekuur",
+    "Leerkring":      "Bekijk leerkring",
+    "Handreiking":    "Bekijk handreiking",
+  };
+  const bekijkLabel = BEKIJK_LABEL[course.werkvorm] || "Bekijk leeractiviteit";
+
   const isSpotify = course.werkvorm === "Podcast" && course.enroll_url?.includes("spotify.com/episode/");
   const spotifyEpisodeId = isSpotify ? course.enroll_url.split("/episode/")[1]?.split("?")[0] : null;
   const spotifyEmbedUrl = spotifyEpisodeId ? `https://open.spotify.com/embed/episode/${spotifyEpisodeId}?utm_source=generator` : null;
@@ -886,7 +901,7 @@ function CourseCard({ course, onClickTrack }) {
             style={{ display: "block", textAlign: "center", background: vendorColor, color: "white", padding: "9px 14px", textDecoration: "none", fontSize: 13, fontWeight: 700 }}
             onMouseEnter={e => { e.currentTarget.style.background = "white"; e.currentTarget.style.color = vendorColor; e.currentTarget.style.outline = `2px solid ${vendorColor}`; }}
             onMouseLeave={e => { e.currentTarget.style.background = vendorColor; e.currentTarget.style.color = "white"; e.currentTarget.style.outline = "none"; }}>
-            Bekijk leeractiviteit →
+            {bekijkLabel} →
           </a>
         ) : (
           <span style={{ fontSize: 12, color: "#aaa", fontStyle: "italic" }}>Geen link beschikbaar</span>
