@@ -393,8 +393,8 @@ export default function LeerhuisXL() {
         }
       `}</style>
 
-      {/* ── Rijkswapen balk — 125px hoog, wapen onderin, exact zoals leerhuisinformatiehuishouding.nl ── */}
-      <div style={{ background: "white", display: "flex", justifyContent: "center", alignItems: "flex-end", height: 125, padding: 0, margin: 0 }}>
+      {/* ── Rijkswapen balk — exact zoals leerhuisinformatiehuishouding.nl ── */}
+      <div style={{ background: "white", display: "flex", justifyContent: "center", alignItems: "flex-start", paddingTop: 0, paddingBottom: 25, margin: 0 }}>
         <img
           src="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg"
           alt="Rijksoverheid"
