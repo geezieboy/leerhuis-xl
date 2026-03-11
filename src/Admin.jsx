@@ -528,47 +528,47 @@ export default function AdminUpload() {
                         <h3 style={{ margin: "0 0 20px", color: PAARS, fontSize: 15 }}>✏️ {course.title}</h3>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
                           <div style={{ gridColumn: "1 / -1" }}>
-                            <label style={labelStyle}>Titel</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Titel<Tooltip text={FIELD_TIPS.titel} /></label>
                             <input value={editForm.title || ""} onChange={e => setEditForm({ ...editForm, title: e.target.value })} style={inputStyle} />
                           </div>
                           <div style={{ gridColumn: "1 / -1" }}>
-                            <label style={labelStyle}>Omschrijving</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Omschrijving<Tooltip text={FIELD_TIPS.omschrijving} /></label>
                             <textarea value={editForm.description || ""} onChange={e => setEditForm({ ...editForm, description: e.target.value })} rows={3} style={{ ...inputStyle, resize: "vertical" }} />
                           </div>
                           <div>
-                            <label style={labelStyle}>Thema</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Thema<Tooltip text={FIELD_TIPS.thema} /></label>
                             <select value={editForm.topic || ""} onChange={e => setEditForm({ ...editForm, topic: e.target.value })} style={inputStyle}>
                               <option value="">— Kies thema —</option>
                               {ALL_THEMAS.map(t => <option key={t} value={t}>{t}</option>)}
                             </select>
                           </div>
                           <div>
-                            <label style={labelStyle}>Leervorm</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Leervorm<Tooltip text={FIELD_TIPS.leervorm} /></label>
                             <select value={editForm.werkvorm || ""} onChange={e => setEditForm({ ...editForm, werkvorm: e.target.value })} style={inputStyle}>
                               <option value="">— Kies leervorm —</option>
                               {ALL_WERKVORMEN.map(w => <option key={w} value={w}>{w}</option>)}
                             </select>
                           </div>
                           <div>
-                            <label style={labelStyle}>Doelgroep</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Doelgroep<Tooltip text={FIELD_TIPS.doelgroep} /></label>
                             <select value={editForm.doelgroep || ""} onChange={e => setEditForm({ ...editForm, doelgroep: e.target.value })} style={inputStyle}>
                               <option value="">— Kies doelgroep —</option>
                               {ALL_DOELGROEPEN.map(d => <option key={d} value={d}>{d}</option>)}
                             </select>
                           </div>
                           <div>
-                            <label style={labelStyle}>Duur</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Duur<Tooltip text={FIELD_TIPS.duur} /></label>
                             <input value={editForm.duration || ""} onChange={e => setEditForm({ ...editForm, duration: e.target.value })} style={inputStyle} placeholder="bijv. 2 uur" />
                           </div>
                           <div>
-                            <label style={labelStyle}>Kosten</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Kosten<Tooltip text={FIELD_TIPS.kosten} /></label>
                             <select value={String(editForm.is_free)} onChange={e => setEditForm({ ...editForm, is_free: e.target.value === "true", price: e.target.value === "true" ? null : (editForm.price || "") })} style={inputStyle}>
                               <option value="true">Gratis</option>
                               <option value="false">Betaald</option>
                             </select>
                           </div>
                           <div style={{ opacity: editForm.is_free ? 0.4 : 1, transition: "opacity 0.2s" }}>
-                            <label style={labelStyle}>Bedrag (€)</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Bedrag (€)<Tooltip text={FIELD_TIPS.bedrag} /></label>
                             <input
                               type="number" min="0" step="0.01"
                               value={editForm.price || ""}
@@ -579,11 +579,11 @@ export default function AdminUpload() {
                             />
                           </div>
                           <div style={{ gridColumn: "1 / -1" }}>
-                            <label style={labelStyle}>Inschrijflink (URL)</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Inschrijflink (URL)<Tooltip text={FIELD_TIPS.inschrijflink} /></label>
                             <input value={editForm.enroll_url || ""} onChange={e => setEditForm({ ...editForm, enroll_url: e.target.value })} style={inputStyle} placeholder="https://..." />
                           </div>
                           <div style={{ gridColumn: "1 / -1" }}>
-                            <label style={labelStyle}>Vervaldatum (optioneel)</label>
+                            <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Vervaldatum (optioneel)<Tooltip text={FIELD_TIPS.vervaldatum} /></label>
                             <input type="date" value={editForm.expiry_date || ""} onChange={e => setEditForm({ ...editForm, expiry_date: e.target.value || null })} style={inputStyle} />
                           </div>
                         </div>
@@ -613,47 +613,47 @@ export default function AdminUpload() {
             <div style={{ background: "white", border: `2px solid ${PAARS}`, padding: 28 }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
                 <div style={{ gridColumn: "1 / -1" }}>
-                  <label style={labelStyle}>Titel <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Titel <span style={{ color: "#d52b1e", marginLeft: 2 }}>*</span><Tooltip text={FIELD_TIPS.titel} /></label>
                   <input value={addForm.title || ""} onChange={e => setAddForm({ ...addForm, title: e.target.value })} style={inputStyle} placeholder="Naam van de leeractiviteit" />
                 </div>
                 <div style={{ gridColumn: "1 / -1" }}>
-                  <label style={labelStyle}>Omschrijving</label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Omschrijving<Tooltip text={FIELD_TIPS.omschrijving} /></label>
                   <textarea value={addForm.description || ""} onChange={e => setAddForm({ ...addForm, description: e.target.value })} rows={3} style={{ ...inputStyle, resize: "vertical" }} placeholder="Korte omschrijving..." />
                 </div>
                 <div>
-                  <label style={labelStyle}>Thema <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Thema <span style={{ color: "#d52b1e", marginLeft: 2 }}>*</span><Tooltip text={FIELD_TIPS.thema} /></label>
                   <select value={addForm.topic || ""} onChange={e => setAddForm({ ...addForm, topic: e.target.value })} style={inputStyle}>
                     <option value="">— Kies thema —</option>
                     {ALL_THEMAS.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={labelStyle}>Leervorm <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Leervorm <span style={{ color: "#d52b1e", marginLeft: 2 }}>*</span><Tooltip text={FIELD_TIPS.leervorm} /></label>
                   <select value={addForm.werkvorm || ""} onChange={e => setAddForm({ ...addForm, werkvorm: e.target.value })} style={inputStyle}>
                     <option value="">— Kies leervorm —</option>
                     {ALL_WERKVORMEN.map(w => <option key={w} value={w}>{w}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={labelStyle}>Doelgroep <span style={{ color: "#d52b1e" }}>*</span></label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Doelgroep <span style={{ color: "#d52b1e", marginLeft: 2 }}>*</span><Tooltip text={FIELD_TIPS.doelgroep} /></label>
                   <select value={addForm.doelgroep || ""} onChange={e => setAddForm({ ...addForm, doelgroep: e.target.value })} style={inputStyle}>
                     <option value="">— Kies doelgroep —</option>
                     {ALL_DOELGROEPEN.map(d => <option key={d} value={d}>{d}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={labelStyle}>Duur</label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Duur<Tooltip text={FIELD_TIPS.duur} /></label>
                   <input value={addForm.duration || ""} onChange={e => setAddForm({ ...addForm, duration: e.target.value })} style={inputStyle} placeholder="bijv. 2 uur" />
                 </div>
                 <div>
-                  <label style={labelStyle}>Kosten</label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Kosten<Tooltip text={FIELD_TIPS.kosten} /></label>
                   <select value={String(addForm.is_free)} onChange={e => setAddForm({ ...addForm, is_free: e.target.value === "true", price: e.target.value === "true" ? null : (addForm.price || "") })} style={inputStyle}>
                     <option value="true">Gratis</option>
                     <option value="false">Betaald</option>
                   </select>
                 </div>
                 <div style={{ opacity: addForm.is_free ? 0.4 : 1, transition: "opacity 0.2s" }}>
-                  <label style={labelStyle}>Bedrag (€)</label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Bedrag (€)<Tooltip text={FIELD_TIPS.bedrag} /></label>
                   <input
                     type="number" min="0" step="0.01"
                     value={addForm.price || ""}
@@ -664,11 +664,11 @@ export default function AdminUpload() {
                   />
                 </div>
                 <div style={{ gridColumn: "1 / -1" }}>
-                  <label style={labelStyle}>Inschrijflink (URL)</label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Inschrijflink (URL)<Tooltip text={FIELD_TIPS.inschrijflink} /></label>
                   <input value={addForm.enroll_url || ""} onChange={e => setAddForm({ ...addForm, enroll_url: e.target.value })} style={inputStyle} placeholder="https://..." />
                 </div>
                 <div style={{ gridColumn: "1 / -1" }}>
-                  <label style={labelStyle}>Vervaldatum (optioneel)</label>
+                  <label style={{...labelStyle, display: "flex", alignItems: "center"}}>Vervaldatum (optioneel)<Tooltip text={FIELD_TIPS.vervaldatum} /></label>
                   <input type="date" value={addForm.expiry_date || ""} onChange={e => setAddForm({ ...addForm, expiry_date: e.target.value || null })} style={inputStyle} />
                 </div>
               </div>
