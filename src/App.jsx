@@ -318,6 +318,7 @@ export default function LeerhuisXL() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
   const [formSent, setFormSent] = useState(false);
   const [activeTab, setActiveTab] = useState("courses");
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => { fetchData(); }, []);
 
@@ -358,6 +359,7 @@ export default function LeerhuisXL() {
   function resetFilters() {
     setSearch(""); setSelectedTopic("Alle thema's"); setSelectedVendor("Alle aanbieders");
     setSelectedWerkvorm("Alle leervormen"); setSelectedDoelgroep("Alle doelgroepen");
+    setVisibleCount(6);
   }
 
   const hasFilters = search || selectedTopic !== "Alle thema's" || selectedVendor !== "Alle aanbieders" ||
@@ -445,7 +447,7 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
-          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0, display: "block" }}>
+          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0, display: "block", background: "#222" }}>
             <img
               src="/hero.jpg"
               alt="Rijksoverheid medewerkers leren samen"
@@ -479,7 +481,7 @@ export default function LeerhuisXL() {
                   <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#888", fontSize: 13 }}>🔍</span>
                   <input
                     type="text" placeholder="Zoek op titel of omschrijving..."
-                    value={search} onChange={e => setSearch(e.target.value)}
+                    value={search} onChange={e => { setSearch(e.target.value); setVisibleCount(6); }}}
                     style={{ width: "100%", padding: "8px 10px 8px 30px", fontSize: 13, border: "1.5px solid #ccc", outline: "none", color: "#222", background: "white" }}
                     onFocus={e => e.target.style.borderColor = PAARS}
                     onBlur={e => e.target.style.borderColor = "#ccc"}
@@ -493,7 +495,7 @@ export default function LeerhuisXL() {
                   { value: selectedDoelgroep, setter: setSelectedDoelgroep, options: activeDoelgroepen, field: "doelgroep" },
                 ].map((f, i) => (
                   <div key={i} style={{ position: "relative" }}>
-                    <select value={f.value} onChange={e => f.setter(e.target.value)} style={{
+                    <select value={f.value} onChange={e => { f.setter(e.target.value); setVisibleCount(6); }} style={{
                       padding: "8px 26px 8px 10px", border: "1.5px solid #ccc",
                       fontSize: 13, cursor: "pointer", background: "white",
                       color: "#222", outline: "none", minWidth: 150,
@@ -545,9 +547,31 @@ export default function LeerhuisXL() {
                 <button onClick={resetFilters} style={{ marginTop: 12, background: PAARS, color: "white", border: "none", padding: "9px 22px", cursor: "pointer", fontWeight: 600, fontSize: 13 }}>Wis filters</button>
               </div>
             ) : (
-              <div className="card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 2 }}>
-                {filtered.map(course => <CourseCard key={course.id} course={course} />)}
-              </div>
+              <>
+                <div className="card-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 2 }}>
+                  {filtered.slice(0, visibleCount).map(course => <CourseCard key={course.id} course={course} />)}
+                </div>
+                {visibleCount < filtered.length && (
+                  <div style={{ display: "flex", justifyContent: "center", gap: 12, padding: "28px 0 8px" }}>
+                    <button
+                      onClick={() => setVisibleCount(v => v + 6)}
+                      style={{ background: PAARS, color: "white", border: "none", padding: "11px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                      onMouseEnter={e => e.currentTarget.style.background = PAARS_HOVER}
+                      onMouseLeave={e => e.currentTarget.style.background = PAARS}
+                    >
+                      Toon meer ({Math.min(6, filtered.length - visibleCount)} van {filtered.length - visibleCount} resterend)
+                    </button>
+                    <button
+                      onClick={() => setVisibleCount(filtered.length)}
+                      style={{ background: "white", color: PAARS, border: `2px solid ${PAARS}`, padding: "11px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                      onMouseEnter={e => { e.currentTarget.style.background = PAARS; e.currentTarget.style.color = "white"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = "white"; e.currentTarget.style.color = PAARS; }}
+                    >
+                      Toon alles ({filtered.length})
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
