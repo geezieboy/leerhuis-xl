@@ -409,9 +409,9 @@ export default function LeerhuisXL() {
         </div>
       </div>
 
-      {/* ── Paarse titelbalk — exact 96px hoog, 40px titel, zoals referentiesite ── */}
-      <div style={{ background: PAARS, width: "100%" }}>
-        <div className="titelbalk-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "stretch", justifyContent: "space-between" }}>
+      {/* ── Paarse titelbalk — exact 96px hoog, 24px padding, zoals referentiesite ── */}
+      <div style={{ background: PAARS, width: "100%", minHeight: 96 }}>
+        <div className="titelbalk-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "stretch", justifyContent: "space-between", minHeight: 96 }}>
           <span className="titelbalk-title" style={{ color: "white", fontSize: 40, fontWeight: 700, letterSpacing: "-0.3px", padding: "24px 0", lineHeight: 1 }}>Leerhuis XL</span>
           <nav style={{ display: "flex", alignItems: "stretch" }}>
             {[
@@ -445,23 +445,23 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
-          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", display: "block", lineHeight: 0 }}>
+          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0 }}>
             <img
               src="/hero.jpg"
               alt="Rijksoverheid medewerkers leren samen"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 50%", display: "block" }}
+              style={{ width: "100%", height: "140%", objectFit: "cover", objectPosition: "center 40%", display: "block", marginTop: "-20%" }}
             />
             {/* Nieuwsbrief knop */}
             <a
               href="https://leerhuis-informatiehuishouding.email-provider.eu/memberforms/subscribe/standalone/form/?a=7aotlshhrm&l=f6ncftu5fm"
               target="_blank" rel="noopener noreferrer"
               style={{
-                position: "absolute", bottom: 20, left: 32,
+                position: "absolute", bottom: 24, left: 32,
                 background: PAARS, color: "white",
-                padding: "9px 20px", fontSize: 13, fontWeight: 700,
-                textDecoration: "none", display: "inline-block",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-                transition: "background 0.15s",
+                padding: "12px 24px", fontSize: 14, fontWeight: 700,
+                textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.35)",
+                letterSpacing: "0.2px",
               }}
               onMouseEnter={e => e.currentTarget.style.background = PAARS_HOVER}
               onMouseLeave={e => e.currentTarget.style.background = PAARS}
