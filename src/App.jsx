@@ -445,14 +445,30 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
-          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 300, overflow: "hidden" }}>
-            {/* Warme foto: diverse collega's die samenwerken/leren in kantooromgeving */}
+          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden" }}>
             <img
               src="/hero.jpg"
               alt="Rijksoverheid medewerkers leren samen"
               style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }}
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.15) 100%)" }} />
+            {/* Nieuwsbrief knop */}
+            <a
+              href="https://leerhuis-informatiehuishouding.email-provider.eu/memberforms/subscribe/standalone/form/?a=7aotlshhrm&l=f6ncftu5fm"
+              target="_blank" rel="noopener noreferrer"
+              style={{
+                position: "absolute", bottom: 20, left: 32,
+                background: PAARS, color: "white",
+                padding: "9px 20px", fontSize: 13, fontWeight: 700,
+                textDecoration: "none", display: "inline-block",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
+                transition: "background 0.15s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = PAARS_HOVER}
+              onMouseLeave={e => e.currentTarget.style.background = PAARS}
+            >
+              ✉ Meld je aan voor de nieuwsbrief
+            </a>
           </div>
 
           {/* ── Zoek + filters balk ── */}
