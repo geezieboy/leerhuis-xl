@@ -448,9 +448,9 @@ export default function LeerhuisXL() {
           <div className="hero-banner" style={{ position: "relative", width: "100%", height: 300, overflow: "hidden" }}>
             {/* Warme foto: diverse collega's die samenwerken/leren in kantooromgeving */}
             <img
-              src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&q=85&auto=format&fit=crop&crop=center"
+              src="/hero.jpg"
               alt="Rijksoverheid medewerkers leren samen"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }}
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.15) 100%)" }} />
           </div>
