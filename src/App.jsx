@@ -202,7 +202,7 @@ Gebruik **vetgedrukt** voor titels van aanbevolen activiteiten.`;
 
       {/* FAB knop */}
       {!open && (
-        <button onClick={openChat} title="Vraag Lex om advies" style={{
+        <button className="lex-fab" onClick={openChat} title="Vraag Lex om advies" style={{
           position: "fixed", bottom: 20, right: 20, zIndex: 1000,
           background: PAARS, border: `3px solid white`, borderRadius: "50%",
           width: 64, height: 64, cursor: "pointer", padding: 0, overflow: "hidden",
@@ -219,7 +219,7 @@ Gebruik **vetgedrukt** voor titels van aanbevolen activiteiten.`;
 
       {/* Chat venster */}
       {open && (
-        <div style={{
+        <div className="lex-chat" style={{
           position: "fixed", bottom: 20, right: 20, zIndex: 1000,
           width: expanded ? "min(680px, calc(100vw - 24px))" : "min(390px, calc(100vw - 24px))",
           height: expanded ? "min(780px, calc(100vh - 40px))" : "min(580px, calc(100vh - 40px))",
@@ -373,7 +373,7 @@ export default function LeerhuisXL() {
   }
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: "white", color: "#222" }}>
+    <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: "#f3f3f3", color: "#222" }}>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; }
@@ -392,6 +392,8 @@ export default function LeerhuisXL() {
           .titelbalk-inner { padding: 0 12px !important; }
           .titelbalk-title { font-size: 22px !important; }
           .nieuwsbrief-knop { font-size: 12px !important; padding: 8px 14px !important; bottom: 12px !important; left: 12px !important; }
+          .lex-fab { bottom: 24px !important; right: 16px !important; }
+          .lex-chat { bottom: 16px !important; right: 8px !important; left: 8px !important; width: calc(100vw - 16px) !important; }
         }
         @media (max-width: 900px) {
           .card-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; }
@@ -478,7 +480,7 @@ export default function LeerhuisXL() {
           </div>
 
           {/* ── Zoek + filters balk ── */}
-          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 16px" }}>
+          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 16px", marginTop: -1 }}>
             <div style={{ maxWidth: 1200, margin: "0 auto" }}>
               <div className="filter-bar-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
                 {/* Zoekbalk */}
