@@ -373,7 +373,7 @@ export default function LeerhuisXL() {
   }
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: "#f3f3f3", color: "#222" }}>
+    <div style={{ fontFamily: "'Segoe UI', Arial, sans-serif", minHeight: "100vh", background: "white", color: "#222" }}>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; }
@@ -451,7 +451,6 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
-          <div style={{ background: "white", lineHeight: 0, fontSize: 0 }}>
           <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0, display: "block", background: "#c8a882" }}>
             <img
               src="/hero.jpg"
@@ -476,7 +475,6 @@ export default function LeerhuisXL() {
             >
               ✉ Meld je aan voor de nieuwsbrief
             </a>
-          </div>
           </div>
 
           {/* ── Zoek + filters balk ── */}
