@@ -383,7 +383,7 @@ export default function LeerhuisXL() {
           .rijkswapen-balk { height: 64px !important; }
           .rijkswapen-balk img { height: 60px !important; }
           .filter-bar-inner { flex-direction: column !important; gap: 6px !important; }
-          .filter-bar-inner > div { width: 100% !important; min-width: unset !important; max-width: unset !important; }
+          .filter-bar-inner > div { width: 100% !important; min-width: unset !important; max-width: unset !important; flex: unset !important; }
           .filter-bar-inner select { width: 100% !important; min-width: unset !important; }
           .filter-bar-inner input { width: 100% !important; max-width: unset !important; }
           .stats-bar { flex-direction: column !important; align-items: flex-start !important; }
