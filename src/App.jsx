@@ -481,7 +481,7 @@ export default function LeerhuisXL() {
                   <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "#888", fontSize: 13 }}>🔍</span>
                   <input
                     type="text" placeholder="Zoek op titel of omschrijving..."
-                    value={search} onChange={e => { setSearch(e.target.value); setVisibleCount(6); }}}
+                    value={search} onChange={e => { setSearch(e.target.value); setVisibleCount(6); }}
                     style={{ width: "100%", padding: "8px 10px 8px 30px", fontSize: 13, border: "1.5px solid #ccc", outline: "none", color: "#222", background: "white" }}
                     onFocus={e => e.target.style.borderColor = PAARS}
                     onBlur={e => e.target.style.borderColor = "#ccc"}
