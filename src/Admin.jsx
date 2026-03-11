@@ -147,7 +147,7 @@ export default function AdminUpload() {
     setResult(null); setErrors([]); setFile(null); setPreview([]); setPlatform(null);
     setEditingCourse(null); setSaveMsg("");
     if (view === "edit") loadCoursesForVendor(vendor.name);
-    if (view === "add") setAddForm({ vendor: vendor.name, title: "", description: "", topic: "", werkvorm: "", doelgroep: "", duration: "", is_free: true, enroll_url: "", language: "NL" });
+    if (view === "add") setAddForm({ vendor: vendor.name, title: "", description: "", topic: "", werkvorm: "", doelgroep: "", duration: "", is_free: true, price: null, enroll_url: "", language: "NL" });
   }
 
   function processFile(f, vendorName) {
@@ -562,10 +562,21 @@ export default function AdminUpload() {
                           </div>
                           <div>
                             <label style={labelStyle}>Kosten</label>
-                            <select value={String(editForm.is_free)} onChange={e => setEditForm({ ...editForm, is_free: e.target.value === "true" })} style={inputStyle}>
+                            <select value={String(editForm.is_free)} onChange={e => setEditForm({ ...editForm, is_free: e.target.value === "true", price: e.target.value === "true" ? null : (editForm.price || "") })} style={inputStyle}>
                               <option value="true">Gratis</option>
                               <option value="false">Betaald</option>
                             </select>
+                          </div>
+                          <div style={{ opacity: editForm.is_free ? 0.4 : 1, transition: "opacity 0.2s" }}>
+                            <label style={labelStyle}>Bedrag (€)</label>
+                            <input
+                              type="number" min="0" step="0.01"
+                              value={editForm.price || ""}
+                              onChange={e => setEditForm({ ...editForm, price: e.target.value ? parseFloat(e.target.value) : null })}
+                              disabled={editForm.is_free}
+                              placeholder="bijv. 125.00"
+                              style={{ ...inputStyle, background: editForm.is_free ? "#f5f5f5" : "white", cursor: editForm.is_free ? "not-allowed" : "text" }}
+                            />
                           </div>
                           <div style={{ gridColumn: "1 / -1" }}>
                             <label style={labelStyle}>Inschrijflink (URL)</label>
@@ -636,10 +647,21 @@ export default function AdminUpload() {
                 </div>
                 <div>
                   <label style={labelStyle}>Kosten</label>
-                  <select value={String(addForm.is_free)} onChange={e => setAddForm({ ...addForm, is_free: e.target.value === "true" })} style={inputStyle}>
+                  <select value={String(addForm.is_free)} onChange={e => setAddForm({ ...addForm, is_free: e.target.value === "true", price: e.target.value === "true" ? null : (addForm.price || "") })} style={inputStyle}>
                     <option value="true">Gratis</option>
                     <option value="false">Betaald</option>
                   </select>
+                </div>
+                <div style={{ opacity: addForm.is_free ? 0.4 : 1, transition: "opacity 0.2s" }}>
+                  <label style={labelStyle}>Bedrag (€)</label>
+                  <input
+                    type="number" min="0" step="0.01"
+                    value={addForm.price || ""}
+                    onChange={e => setAddForm({ ...addForm, price: e.target.value ? parseFloat(e.target.value) : null })}
+                    disabled={addForm.is_free}
+                    placeholder="bijv. 125.00"
+                    style={{ ...inputStyle, background: addForm.is_free ? "#f5f5f5" : "white", cursor: addForm.is_free ? "not-allowed" : "text" }}
+                  />
                 </div>
                 <div style={{ gridColumn: "1 / -1" }}>
                   <label style={labelStyle}>Inschrijflink (URL)</label>
