@@ -451,6 +451,7 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
+          <div style={{ background: "white", lineHeight: 0, fontSize: 0 }}>
           <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0, display: "block", background: "#c8a882" }}>
             <img
               src="/hero.jpg"
@@ -475,6 +476,7 @@ export default function LeerhuisXL() {
             >
               ✉ Meld je aan voor de nieuwsbrief
             </a>
+          </div>
           </div>
 
           {/* ── Zoek + filters balk ── */}
