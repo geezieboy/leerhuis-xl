@@ -480,7 +480,7 @@ export default function LeerhuisXL() {
           </div>
 
           {/* ── Zoek + filters balk ── */}
-          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 16px", marginTop: -1 }}>
+          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 16px", marginTop: -4 }}>
             <div style={{ maxWidth: 1200, margin: "0 auto" }}>
               <div className="filter-bar-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
                 {/* Zoekbalk */}
