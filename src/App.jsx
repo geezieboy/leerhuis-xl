@@ -445,11 +445,11 @@ export default function LeerhuisXL() {
       {/* ── Hero fotobanner (alleen op Leeraanbod) ── */}
       {activeTab === "courses" && (
         <>
-          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden" }}>
+          <div className="hero-banner" style={{ position: "relative", width: "100%", height: 340, overflow: "hidden", fontSize: 0, lineHeight: 0, display: "block" }}>
             <img
               src="/hero.jpg"
               alt="Rijksoverheid medewerkers leren samen"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%", display: "block" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 65%", display: "block", verticalAlign: "bottom" }}
             />
             {/* Nieuwsbrief knop */}
             <a
@@ -471,7 +471,7 @@ export default function LeerhuisXL() {
           </div>
 
           {/* ── Zoek + filters balk ── */}
-          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, borderBottom: "1px solid #e0e0e0", padding: "14px 32px" }}>
+          <div style={{ background: "white", borderTop: `4px solid ${PAARS}`, padding: "14px 32px" }}>
             <div style={{ maxWidth: 1200, margin: "0 auto" }}>
               <div className="filter-bar-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
                 {/* Zoekbalk */}
