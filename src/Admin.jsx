@@ -11,7 +11,7 @@ const ALL_THEMAS = [
   "Archiveren en beheren", "Meten en verbeteren", "Openbaar maken",
   "Organisatiecultuur en gedragsverandering", "Professionele vaardigheden",
 ];
-const ALL_DOELGROEPEN = ["Informatieprofessional", "Leidinggevende", "Rijksmedewerker"];
+const ALL_DOELGROEPEN = ["Informatieprofessional", "Leidinggevende", "Rijksklant"];
 
 const THEMA_MAPPING = {
   "Systemen en data": "Archiveren en beheren",
@@ -73,16 +73,16 @@ function Tooltip({ text }) {
 }
 
 const FIELD_TIPS = {
-  titel: "De naam van de leeractiviteit zoals die zichtbaar is voor medewerkers. Zorg dat de titel kort en duidelijk is.",
-  omschrijving: "Een korte uitleg van wat de medewerker leert. Dit helpt mensen beslissen of de activiteit bij hen past.",
+  titel: "De naam van de leeractiviteit zoals die zichtbaar is voor klanten. Zorg dat de titel kort en duidelijk is.",
+  omschrijving: "Een korte uitleg van wat de klant leert. Dit helpt mensen beslissen of de activiteit bij hen past.",
   aanbieder: "De organisatie die deze leeractiviteit aanbiedt, zoals Leerhuis IH of KIA.",
-  thema: "Het onderwerp waar deze activiteit over gaat. Medewerkers kunnen hierop filteren om relevante activiteiten te vinden.",
+  thema: "Het onderwerp waar deze activiteit over gaat. Klanten kunnen hierop filteren om relevante activiteiten te vinden.",
   leervorm: "De manier waarop geleerd wordt, bijvoorbeeld een online cursus, een live webinar of een podcast.",
-  doelgroep: "Voor wie is deze activiteit bedoeld? Dit helpt medewerkers snel de juiste activiteiten te vinden.",
+  doelgroep: "Voor wie is deze activiteit bedoeld? Dit helpt klanten snel de juiste activiteiten te vinden.",
   duur: "Hoe lang duurt de activiteit? Geef dit aan in uren of minuten, zodat mensen weten wat ze moeten inplannen.",
   kosten: "Is deelname gratis of betaald? Bij 'Betaald' kun je ook het exacte bedrag invullen.",
-  bedrag: "Vul hier het bedrag in dat een medewerker moet betalen. Gebruik een punt als decimaalscheider, bijv. 125.00",
-  inschrijflink: "De website waar medewerkers zich kunnen aanmelden. Zorg dat dit een werkende link is die direct naar het inschrijfformulier gaat.",
+  bedrag: "Vul hier het bedrag in dat een klant moet betalen. Gebruik een punt als decimaalscheider, bijv. 125.00",
+  inschrijflink: "De website waar klanten zich kunnen aanmelden. Zorg dat dit een werkende link is die direct naar het inschrijfformulier gaat.",
   vervaldatum: "Als de activiteit niet meer beschikbaar is na een bepaalde datum, kun je die hier invullen. De activiteit verdwijnt dan automatisch uit het overzicht.",
 };
 
