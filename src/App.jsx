@@ -12,9 +12,10 @@ const VENDOR_COLORS = {
   KIA: "#007bc7",
   RADIO: "#d52b1e",
   "Informatie Academie": "#e17000",
+  "Nationaal Archief": "#c8922a",
 };
 
-const ALL_WERKVORMEN = ["E-learning","Training","Webinar","Workshop","Podcast","Netwerkborrel","Bijeenkomst","Congres","Spreekuur","Leerkring"];
+const ALL_WERKVORMEN = ["E-learning","Training","Webinar","Workshop","Podcast","Netwerkborrel","Bijeenkomst","Congres","Spreekuur","Leerkring","Handreiking"];
 const ALL_THEMAS = ["Archiveren en beheren","Meten en verbeteren","Openbaar maken","Organisatiecultuur en gedragsverandering","Professionele vaardigheden"];
 const ALL_DOELGROEPEN = ["Informatieprofessional","Leidinggevende","Rijksmedewerker"];
 
@@ -108,6 +109,7 @@ Werkwijze:
 3. Leg kort uit WAAROM elke aanbeveling past bij de leervraag.
 4. Vermeld de directe URL naar de leeractiviteit.
 
+Het aanbod bevat ook handreikingen van het Nationaal Archief (werkvorm: Handreiking). Dit zijn praktische kennisdocumenten — geen cursussen, maar naslagwerken. Verwijs er naar als iemand op zoek is naar concrete richtlijnen of normen voor archivering.
 Houd je ALTIJD aan het beschikbare aanbod. Verzin geen cursussen die er niet in staan.
 Schrijf in informeel maar professioneel Nederlands. Gebruik spaarzaam emoji. Wees bondig en concreet.
 Gebruik **vetgedrukt** voor titels van aanbevolen activiteiten.`;
@@ -608,7 +610,7 @@ export default function LeerhuisXL() {
             <div style={{ background: "white", border: "1px solid #d4d4d4", borderLeft: `5px solid ${PAARS}`, padding: "32px 36px", marginBottom: 3 }}>
               <h2 style={{ color: PAARS, marginTop: 0, fontSize: 22, fontWeight: 700, marginBottom: 14 }}>Over Leerhuis XL</h2>
               <p style={{ color: "#333", lineHeight: 1.8, fontSize: 15, margin: "0 0 14px" }}>
-                Leerhuis XL is hét centrale leerplatform voor medewerkers van de Rijksoverheid die werken aan informatiebeheer, digitalisering en openbaarmaking. Op één plek vind je het complete leeraanbod van vier gespecialiseerde aanbieders — van e-learnings en podcasts tot workshops en netwerkbijeenkomsten.
+                Leerhuis XL is hét centrale leerplatform voor medewerkers van de Rijksoverheid die werken aan informatiebeheer, digitalisering en openbaarmaking. Op één plek vind je het complete leeraanbod van vijf gespecialiseerde aanbieders — van e-learnings en podcasts tot workshops, netwerkbijeenkomsten en praktische kennisdocumenten van het Nationaal Archief.
               </p>
               <p style={{ color: "#333", lineHeight: 1.8, fontSize: 15, margin: 0 }}>
                 Of je nu net begint of al jaren ervaring hebt: Leerhuis XL helpt jou en jouw organisatie om de informatiehuishouding op orde te brengen én te houden.
@@ -650,6 +652,14 @@ export default function LeerhuisXL() {
                   tagline: "Professionele ontwikkeling voor informatieprofessionals",
                   description: "De Informatie Academie is een commerciële opleider gespecialiseerd in informatiemanagement, archivistiek en documentaire informatievoorziening. Zij bieden zowel open inschrijvingscursussen als maatwerkopdrachten voor overheden en organisaties. Het aanbod loopt uiteen van introductietrainingen voor nieuwe medewerkers tot verdiepende masterclasses en netwerkevenementen zoals de Open Donderdagen.",
                   stats: ["Open inschrijving & maatwerk", "Breed opleidingsaanbod", "Commerciële aanbieder"],
+                },
+                {
+                  name: "Nationaal Archief",
+                  color: "#c8922a",
+                  url: "https://www.nationaalarchief.nl/archiveren/kennisbank",
+                  tagline: "Kennispartner voor archivering en informatiebeheer",
+                  description: "Het Nationaal Archief is de grootste archiefinstelling van Nederland en de kennisautoriteit op het gebied van archivering en duurzame toegankelijkheid van overheidsinformatie. Via de kennisbank bieden zij praktische handreikingen, richtlijnen en normen die overheidsorganisaties helpen bij het inrichten van goed informatiebeheer. Op Leerhuis XL zijn de handreikingen van het Nationaal Archief beschikbaar als kennisdocumenten.",
+                  stats: ["Kennisdocumenten & handreikingen", "Gratis raadpleegbaar", "Geactualiseerd per kwartaal"],
                 },
               ].map(vendor => (
                 <div key={vendor.name} style={{ background: "white", border: "1px solid #d4d4d4", borderLeft: `5px solid ${vendor.color}`, padding: "24px 28px" }}>

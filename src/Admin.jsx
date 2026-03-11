@@ -6,7 +6,7 @@ const CORRECT_PASSWORD = "Leerhuis2026*NA";
 const PAARS = "#42145f";
 const PAARS_LICHT = "#f5eefa";
 
-const ALL_WERKVORMEN = ["E-learning", "Training", "Webinar", "Workshop", "Podcast", "Netwerkborrel", "Bijeenkomst", "Congres", "Spreekuur", "Leerkring"];
+const ALL_WERKVORMEN = ["E-learning", "Training", "Webinar", "Workshop", "Podcast", "Netwerkborrel", "Bijeenkomst", "Congres", "Spreekuur", "Leerkring", "Handreiking"];
 const ALL_THEMAS = [
   "Archiveren en beheren", "Meten en verbeteren", "Openbaar maken",
   "Organisatiecultuur en gedragsverandering", "Professionele vaardigheden",
@@ -94,6 +94,7 @@ const INITIAL_VENDORS = [
   { id: "kia", name: "KIA", status: "handmatig", color: "#007bc7", mapper: null, contact: { naam: "KIA", website: "", email: "", exportInstructie: "", notities: "" } },
   { id: "radio", name: "RADIO", status: "handmatig", color: "#d52b1e", mapper: null, contact: { naam: "RADIO", website: "", email: "", exportInstructie: "", notities: "" } },
   { id: "ia", name: "Informatie Academie", status: "handmatig", color: "#e17000", mapper: null, contact: { naam: "Informatie Academie", website: "", email: "", exportInstructie: "", notities: "" } },
+  { id: "na", name: "Nationaal Archief", status: "handmatig", color: "#c8922a", mapper: null, contact: { naam: "Nationaal Archief", website: "https://www.nationaalarchief.nl/archiveren/kennisbank", email: "info@nationaalarchief.nl", exportInstructie: "Handmatig importeren via importNationaalArchief.js — actualiseer elk kwartaal.", notities: "Kennisproducten catalogus: https://www.nationaalarchief.nl/archiveren/kennisbank/catalogus-kennisproducten-0. Actueel per 2025-Q4." } },
 ];
 
 const inputStyle = { width: "100%", padding: "8px 10px", border: "1px solid #b4b4b4", fontSize: 14, boxSizing: "border-box", outline: "none", color: "#222", fontFamily: "inherit" };
