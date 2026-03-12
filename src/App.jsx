@@ -796,17 +796,30 @@ export default function LeerhuisXL() {
               ) : isAndroid ? (
                 <div>
                   <div style={{ background: PAARS_LICHT, border: `1px solid #d4b8e8`, padding: "16px 20px", marginBottom: 20, fontSize: 13, color: "#333", lineHeight: 1.6 }}>
-                    <strong>Android</strong> — Klik op de knop hieronder. Chrome vraagt je bevestiging en voegt de app toe aan je beginscherm.
+                    <strong>Android</strong> — {deferredPrompt ? "Klik op de knop hieronder. Chrome vraagt je bevestiging en voegt de app toe aan je beginscherm." : "Gebruik het menu van Chrome om de app te installeren."}
                   </div>
                   {installState === "done" ? (
                     <div style={{ background: "#e5f5e9", border: "1px solid #a5d6a7", padding: "16px 20px", textAlign: "center" }}>
                       <strong style={{ color: "#275937" }}>✅ App geïnstalleerd! Ga naar je beginscherm.</strong>
                     </div>
-                  ) : (
-                    <button onClick={handleInstallAndroid} disabled={!deferredPrompt}
-                      style={{ width: "100%", background: deferredPrompt ? PAARS : "#ccc", color: "white", border: "none", padding: "14px 20px", fontSize: 15, fontWeight: 700, cursor: deferredPrompt ? "pointer" : "default" }}>
-                      {deferredPrompt ? "📲 Installeer Leerhuis XL" : "App is al geïnstalleerd of niet beschikbaar"}
+                  ) : deferredPrompt ? (
+                    <button onClick={handleInstallAndroid}
+                      style={{ width: "100%", background: PAARS, color: "white", border: "none", padding: "14px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer" }}>
+                      📲 Installeer Leerhuis XL
                     </button>
+                  ) : (
+                    <div>
+                      {[
+                        { stap: "1", icon: "⋮", tekst: "Tik op de drie puntjes rechtsboven in Chrome" },
+                        { stap: "2", icon: "➕", tekst: 'Kies "Toevoegen aan startscherm"' },
+                        { stap: "3", icon: "✅", tekst: 'Tik op "Toevoegen" — de app staat nu op je beginscherm' },
+                      ].map(({ stap, icon, tekst }) => (
+                        <div key={stap} style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 16 }}>
+                          <div style={{ background: PAARS, color: "white", width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 }}>{stap}</div>
+                          <div style={{ fontSize: 13, color: "#333", lineHeight: 1.6, paddingTop: 4 }}>{icon} {tekst}</div>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
 
