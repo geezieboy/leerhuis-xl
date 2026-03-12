@@ -441,19 +441,19 @@ export default function LeerhuisXL() {
 
       {/* ── Logo balk ── */}
       <div className="rijkswapen-balk" style={{ background: "white", borderBottom: "3px solid #42145f", margin: 0 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "10px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "10px 32px", display: "flex", alignItems: "center", position: "relative" }}>
           {/* Leerhuis XL logo links */}
           <img
             src="/logo-xl.png"
             alt="Leerhuis XL"
-            style={{ height: 64, display: "block", cursor: "pointer" }}
+            style={{ height: 64, display: "block", cursor: "pointer", zIndex: 1 }}
             onClick={() => setActiveTab("courses")}
           />
-          {/* Rijkswapen rechts */}
+          {/* Rijkswapen exact gecentreerd */}
           <img
             src="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg"
             alt="Rijksoverheid"
-            style={{ height: 72, display: "block" }}
+            style={{ height: 72, display: "block", position: "absolute", left: "50%", transform: "translateX(-50%)" }}
             onError={e => { e.target.style.display = "none"; }}
           />
         </div>
