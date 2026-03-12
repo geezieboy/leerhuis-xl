@@ -1,0 +1,18 @@
+{
+  "name": "Leerhuis XL",
+  "short_name": "Leerhuis XL",
+  "description": "Hét leerplatform voor informatiehuishouding bij de Rijksoverheid",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#42145f",
+  "lang": "nl",
+  "icons": [
+    {
+      "src": "https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
