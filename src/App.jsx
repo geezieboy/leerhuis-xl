@@ -417,8 +417,18 @@ export default function LeerhuisXL() {
         select { -webkit-appearance: none; appearance: none; }
         @media (max-width: 700px) {
           .hero-banner { height: 220px !important; }
-          .rijkswapen-balk { height: 64px !important; }
-          .rijkswapen-balk img { height: 60px !important; }
+          /* Logo balk: kleiner op mobiel, nooit hoger dan scherm */
+          .rijkswapen-balk { height: auto !important; }
+          .rijkswapen-balk .logo-xl-img { height: 44px !important; }
+          .rijkswapen-balk .rijkswapen-img { height: 44px !important; position: static !important; transform: none !important; }
+          .rijkswapen-balk .logo-inner { padding: 8px 16px !important; justify-content: space-between !important; }
+          /* Titelbalk: kleiner lettertype, nav scrollbaar */
+          .titelbalk-inner { padding: 0 12px !important; flex-wrap: nowrap !important; }
+          .titelbalk-title { font-size: 22px !important; white-space: nowrap !important; flex-shrink: 0 !important; }
+          .titelbalk-nav { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; flex-shrink: 1 !important; }
+          .titelbalk-nav::-webkit-scrollbar { display: none !important; }
+          .titelbalk-nav button { padding: 0 12px !important; font-size: 13px !important; white-space: nowrap !important; flex-shrink: 0 !important; }
+          /* Filters */
           .filter-bar-inner { flex-direction: column !important; gap: 6px !important; }
           .filter-bar-inner > div { width: 100% !important; min-width: unset !important; max-width: unset !important; flex: unset !important; }
           .filter-bar-inner select { width: 100% !important; min-width: unset !important; }
@@ -426,12 +436,11 @@ export default function LeerhuisXL() {
           .stats-bar { flex-direction: column !important; align-items: flex-start !important; }
           .main-pad { padding: 10px 10px 80px !important; }
           .card-grid { grid-template-columns: 1fr !important; }
-          .titelbalk-inner { padding: 0 12px !important; }
-          .titelbalk-title { font-size: 26px !important; }
           .nieuwsbrief-knop { font-size: 12px !important; padding: 8px 14px !important; bottom: 12px !important; left: 12px !important; }
-          .lex-fab { bottom: 80px !important; right: 20px !important; }
-          .lex-bubble { bottom: 156px !important; right: 20px !important; }
-          .lex-chat { bottom: 16px !important; right: 8px !important; left: 8px !important; width: calc(100vw - 16px) !important; }
+          /* Lex: netjes in beeld */
+          .lex-fab { bottom: 80px !important; right: 16px !important; }
+          .lex-bubble { bottom: 156px !important; right: 16px !important; }
+          .lex-chat { bottom: 16px !important; right: 8px !important; left: 8px !important; width: calc(100vw - 16px) !important; max-width: unset !important; }
         }
         @media (max-width: 900px) {
           .card-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important; }
@@ -440,17 +449,19 @@ export default function LeerhuisXL() {
       `}</style>
 
       {/* ── Logo balk ── */}
-      <div className="rijkswapen-balk" style={{ background: "white", borderBottom: "3px solid #42145f", margin: 0 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "10px 32px", display: "flex", alignItems: "center", position: "relative" }}>
+      <div className="rijkswapen-balk" style={{ background: "white", borderBottom: "3px solid #42145f", margin: 0, overflow: "hidden" }}>
+        <div className="logo-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "10px 32px", display: "flex", alignItems: "center", position: "relative" }}>
           {/* Leerhuis XL logo links */}
           <img
+            className="logo-xl-img"
             src="/logo-xl.png"
             alt="Leerhuis XL"
-            style={{ height: 64, display: "block", cursor: "pointer", zIndex: 1 }}
+            style={{ height: 64, display: "block", cursor: "pointer", zIndex: 1, flexShrink: 0 }}
             onClick={() => setActiveTab("courses")}
           />
-          {/* Rijkswapen exact gecentreerd */}
+          {/* Rijkswapen exact gecentreerd op desktop, rechts op mobiel */}
           <img
+            className="rijkswapen-img"
             src="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg"
             alt="Rijksoverheid"
             style={{ height: 72, display: "block", position: "absolute", left: "50%", transform: "translateX(-50%)" }}
@@ -463,7 +474,7 @@ export default function LeerhuisXL() {
       <div style={{ background: PAARS, width: "100%", minHeight: 96 }}>
         <div className="titelbalk-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "stretch", justifyContent: "space-between", minHeight: 96 }}>
           <span className="titelbalk-title" style={{ color: "white", fontSize: 40, fontWeight: 700, letterSpacing: "-0.3px", padding: "24px 0", lineHeight: 1 }}>Leerhuis XL</span>
-          <nav style={{ display: "flex", alignItems: "stretch" }}>
+          <nav className="titelbalk-nav" style={{ display: "flex", alignItems: "stretch" }}>
             {[
               { key: "courses", label: "Leeraanbod" },
               { key: "about", label: "Over ons" },
