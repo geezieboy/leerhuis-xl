@@ -439,26 +439,30 @@ export default function LeerhuisXL() {
         }
       `}</style>
 
-      {/* ── Rijkswapen balk ── */}
-      <div className="rijkswapen-balk" style={{ background: "white", display: "flex", justifyContent: "center", alignItems: "flex-start", height: 125, paddingTop: 0, paddingBottom: 25, margin: 0 }}>
-        <img
-          src="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg"
-          alt="Rijksoverheid"
-          style={{ height: 100, display: "block" }}
-          onError={e => {
-            e.target.style.display = "none";
-            e.target.nextSibling.style.display = "flex";
-          }}
-        />
-        <div style={{ display: "none", width: 66, height: 100, background: "#154273", alignItems: "center", justifyContent: "center", lineHeight: 1 }}>
-          <span style={{ color: "white", fontSize: 34 }}>⚜</span>
+      {/* ── Logo balk ── */}
+      <div className="rijkswapen-balk" style={{ background: "white", borderBottom: "3px solid #42145f", margin: 0 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "10px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          {/* Leerhuis XL logo links */}
+          <img
+            src="/logo-xl.png"
+            alt="Leerhuis XL"
+            style={{ height: 64, display: "block", cursor: "pointer" }}
+            onClick={() => setActiveTab("courses")}
+          />
+          {/* Rijkswapen rechts */}
+          <img
+            src="https://www.leerhuisinformatiehuishouding.nl/themes/rijksoverheid/header-logo.svg"
+            alt="Rijksoverheid"
+            style={{ height: 72, display: "block" }}
+            onError={e => { e.target.style.display = "none"; }}
+          />
         </div>
       </div>
 
       {/* ── Paarse titelbalk — exact 96px hoog, 24px padding, zoals referentiesite ── */}
       <div style={{ background: PAARS, width: "100%", minHeight: 96 }}>
         <div className="titelbalk-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "stretch", justifyContent: "space-between", minHeight: 96 }}>
-          <span className="titelbalk-title" style={{ color: "white", fontSize: 40, fontWeight: 700, letterSpacing: "-0.3px", padding: "24px 0", lineHeight: 1 }}>Leerhuis XL</span>
+          <span className="titelbalk-title" style={{ color: "white", fontSize: 22, fontWeight: 700, letterSpacing: "0.5px", padding: "24px 0", lineHeight: 1, opacity: 0.85 }}>Leerplatform Rijksoverheid</span>
           <nav style={{ display: "flex", alignItems: "stretch" }}>
             {[
               { key: "courses", label: "Leeraanbod" },
