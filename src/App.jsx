@@ -319,7 +319,26 @@ export default function LeerhuisXL() {
   const [loading, setLoading] = useState(true);
   const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
   const [formSent, setFormSent] = useState(false);
-  const [activeTab, setActiveTab] = useState("courses");
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [installState, setInstallState] = useState("idle"); // idle | installing | done
+
+  useEffect(() => {
+    const handler = (e) => { e.preventDefault(); setDeferredPrompt(e); };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstallAndroid = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") { setInstallState("done"); setDeferredPrompt(null); }
+  };
+
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+  const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
+  const [activeTab, setActiveTab] = useState(window.location.pathname === '/install' ? 'install' : 'courses');
   const [visibleCount, setVisibleCount] = useState(6);
   const [topModuleEnabled, setTopModuleEnabled] = useState(false);
   const [topModulePosition, setTopModulePosition] = useState("boven");
@@ -444,7 +463,8 @@ export default function LeerhuisXL() {
             {[
               { key: "courses", label: "Leeraanbod" },
               { key: "about", label: "Over ons" },
-              { key: "contact", label: "Contact" }
+              { key: "contact", label: "Contact" },
+              { key: "install", label: "📲 App" }
             ].map(tab => (
               <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
                 background: activeTab === tab.key ? "rgba(0,0,0,0.25)" : "transparent",
@@ -738,6 +758,68 @@ export default function LeerhuisXL() {
                     onMouseEnter={e => e.currentTarget.style.background = PAARS_HOVER}
                     onMouseLeave={e => e.currentTarget.style.background = PAARS}>
                     Verstuur bericht →
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {activeTab === "install" && (
+          <div style={{ maxWidth: 560 }}>
+            <div style={{ background: "white", border: "1px solid #d4d4d4", borderLeft: `5px solid ${PAARS}`, padding: "32px 36px" }}>
+              <h2 style={{ color: PAARS, marginTop: 0, fontSize: 22, fontWeight: 700, marginBottom: 8 }}>📲 Installeer de app</h2>
+              <p style={{ color: "#555", fontSize: 14, lineHeight: 1.7, marginBottom: 28 }}>
+                Voeg Leerhuis XL toe aan je beginscherm en gebruik het als een echte app — zonder app store.
+              </p>
+
+              {isInStandaloneMode ? (
+                <div style={{ background: "#e5f5e9", border: "1px solid #a5d6a7", padding: "20px 24px", textAlign: "center" }}>
+                  <div style={{ fontSize: 32, marginBottom: 8 }}>✅</div>
+                  <strong style={{ color: "#275937", fontSize: 15 }}>Je gebruikt Leerhuis XL al als app!</strong>
+                </div>
+
+              ) : isAndroid ? (
+                <div>
+                  <div style={{ background: PAARS_LICHT, border: `1px solid #d4b8e8`, padding: "16px 20px", marginBottom: 20, fontSize: 13, color: "#333", lineHeight: 1.6 }}>
+                    <strong>Android</strong> — Klik op de knop hieronder. Chrome vraagt je bevestiging en voegt de app toe aan je beginscherm.
+                  </div>
+                  {installState === "done" ? (
+                    <div style={{ background: "#e5f5e9", border: "1px solid #a5d6a7", padding: "16px 20px", textAlign: "center" }}>
+                      <strong style={{ color: "#275937" }}>✅ App geïnstalleerd! Ga naar je beginscherm.</strong>
+                    </div>
+                  ) : (
+                    <button onClick={handleInstallAndroid} disabled={!deferredPrompt}
+                      style={{ width: "100%", background: deferredPrompt ? PAARS : "#ccc", color: "white", border: "none", padding: "14px 20px", fontSize: 15, fontWeight: 700, cursor: deferredPrompt ? "pointer" : "default" }}>
+                      {deferredPrompt ? "📲 Installeer Leerhuis XL" : "App is al geïnstalleerd of niet beschikbaar"}
+                    </button>
+                  )}
+                </div>
+
+              ) : isIOS ? (
+                <div>
+                  <div style={{ background: PAARS_LICHT, border: `1px solid #d4b8e8`, padding: "16px 20px", marginBottom: 20, fontSize: 13, color: "#333", lineHeight: 1.6 }}>
+                    <strong>iPhone / iPad</strong> — Apple staat automatisch installeren niet toe. Volg deze drie stappen:
+                  </div>
+                  {[
+                    { stap: "1", icon: "⬆️", tekst: "Tik op het deel-icoon onderaan Safari (het vierkantje met het pijltje omhoog)" },
+                    { stap: "2", icon: "➕", tekst: 'Scroll naar beneden en kies "Zet op beginscherm"' },
+                    { stap: "3", icon: "✅", tekst: 'Tik op "Voeg toe" — de app staat nu op je beginscherm' },
+                  ].map(({ stap, icon, tekst }) => (
+                    <div key={stap} style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 16 }}>
+                      <div style={{ background: PAARS, color: "white", width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 }}>{stap}</div>
+                      <div style={{ fontSize: 13, color: "#333", lineHeight: 1.6, paddingTop: 4 }}>{icon} {tekst}</div>
+                    </div>
+                  ))}
+                </div>
+
+              ) : (
+                <div>
+                  <div style={{ background: PAARS_LICHT, border: `1px solid #d4b8e8`, padding: "16px 20px", marginBottom: 20, fontSize: 13, color: "#333", lineHeight: 1.6 }}>
+                    <strong>Desktop (Chrome / Edge)</strong> — Klik op het installatie-icoon rechts in de adresbalk, of gebruik het menu hieronder.
+                  </div>
+                  <button onClick={handleInstallAndroid} disabled={!deferredPrompt}
+                    style={{ width: "100%", background: deferredPrompt ? PAARS : "#ccc", color: "white", border: "none", padding: "14px 20px", fontSize: 15, fontWeight: 700, cursor: deferredPrompt ? "pointer" : "default" }}>
+                    {deferredPrompt ? "📲 Installeer Leerhuis XL" : "Gebruik het installatie-icoon in de adresbalk →"}
                   </button>
                 </div>
               )}
