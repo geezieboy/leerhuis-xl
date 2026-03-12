@@ -427,7 +427,7 @@ export default function LeerhuisXL() {
           .main-pad { padding: 10px 10px 80px !important; }
           .card-grid { grid-template-columns: 1fr !important; }
           .titelbalk-inner { padding: 0 12px !important; }
-          .titelbalk-title { font-size: 22px !important; }
+          .titelbalk-title { font-size: 26px !important; }
           .nieuwsbrief-knop { font-size: 12px !important; padding: 8px 14px !important; bottom: 12px !important; left: 12px !important; }
           .lex-fab { bottom: 80px !important; right: 20px !important; }
           .lex-bubble { bottom: 156px !important; right: 20px !important; }
@@ -462,7 +462,7 @@ export default function LeerhuisXL() {
       {/* ── Paarse titelbalk — exact 96px hoog, 24px padding, zoals referentiesite ── */}
       <div style={{ background: PAARS, width: "100%", minHeight: 96 }}>
         <div className="titelbalk-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "stretch", justifyContent: "space-between", minHeight: 96 }}>
-          <span className="titelbalk-title" style={{ color: "white", fontSize: 22, fontWeight: 700, letterSpacing: "0.5px", padding: "24px 0", lineHeight: 1, opacity: 0.85 }}>Leerplatform Rijksoverheid</span>
+          <span className="titelbalk-title" style={{ color: "white", fontSize: 40, fontWeight: 700, letterSpacing: "-0.3px", padding: "24px 0", lineHeight: 1 }}>Leerhuis XL</span>
           <nav style={{ display: "flex", alignItems: "stretch" }}>
             {[
               { key: "courses", label: "Leeraanbod" },
